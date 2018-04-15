@@ -1,2 +1,4 @@
 # cs263-languages-project
-Main project for UCSB CS 263
+
+Jack Alexander (jalexanderqed)
+Sierra Schwellenbach (sierrasch)
