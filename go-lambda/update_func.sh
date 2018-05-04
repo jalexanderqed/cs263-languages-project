@@ -7,4 +7,4 @@ if [ $# -eq 0 ]
 fi
 
 aws lambda update-function-code --function-name $1 \
---zip-file fileb://target/lambda-java-1.0.jar
+--zip-file fileb://upzip.zip

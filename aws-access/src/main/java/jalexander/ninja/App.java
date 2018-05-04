@@ -29,11 +29,16 @@ public class App {
         AWSLambda client = AWSLambdaClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
 
         InvokeRequest request = new InvokeRequest();
-        request.setFunctionName("jpi2");
-        request.setPayload("{\"inputInt\":358, \"inputString\":\"\"}");
+        request.setFunctionName("pigo");
+        request.setPayload("{\"inputInt\":10000000, \"inputString\":\"teststring\"}");
+
+        long start = System.currentTimeMillis();
         InvokeResult result = client.invoke(request);
+        long end = System.currentTimeMillis();
 
         System.out.println(new String(result.getPayload().array(), "UTF-8"));
+
+        System.out.println("Invocation time: " + (end - start));
     }
 
     public static File getFile(String outFileName) {
