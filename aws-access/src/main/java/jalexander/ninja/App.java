@@ -29,8 +29,8 @@ public class App {
         AWSLambda client = AWSLambdaClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
 
         InvokeRequest request = new InvokeRequest();
-        request.setFunctionName("firstLambdaFunc");
-        request.setPayload("{\"key1\":\"value1\", \"key2\":\"value2\", \"key3\":\"value3\"}");
+        request.setFunctionName("jpi2");
+        request.setPayload("{\"inputInt\":358, \"inputString\":\"\"}");
         InvokeResult result = client.invoke(request);
 
         System.out.println(new String(result.getPayload().array(), "UTF-8"));

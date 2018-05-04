@@ -1,3 +1,5 @@
+package jalexander.ninja;
+
 import com.amazonaws.services.lambda.runtime.Context;
 
 public class Pi {
@@ -8,12 +10,23 @@ public class Pi {
 
     public static class ResponseClass {
         public int outputInt;
+        public double time1;
+        public double time2;
+        public long longTime1;
+        public long longTime2;
+        public double outputDouble;
         public String outputString;
     }
 
     public static ResponseClass handler(RequestClass request, Context context){
         ResponseClass response = new ResponseClass();
-        response.outputString = "input int is " + request.inputInt;
+        response.outputString = "calculated Pi";
+
+        long start = System.currentTimeMillis();
+        response.outputDouble = calcPi(request.inputInt);
+        long end = System.currentTimeMillis();
+        response.longTime1 = end - start;
+
         return response;
     }
 
