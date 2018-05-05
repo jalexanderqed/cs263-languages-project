@@ -1,6 +1,7 @@
 package main
 
 import (
+       "time"
        "fmt"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -34,7 +35,10 @@ func calcPi(iterations int) float64 {
 
 func Handler(input RequestClass) (ResponseClass, error) {
      response := ResponseClass{}
+     start := time.Now()
      response.OutputDouble = calcPi(input.InputInt)
+     end := time.Now()
+     response.LongTime1 = int64(end.Sub(start) / time.Millisecond)
      response.OutputString = fmt.Sprintf("Calculated Pi with %d iterations", input.InputInt)
      
      return response, nil
