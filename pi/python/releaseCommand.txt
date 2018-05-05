@@ -3,7 +3,13 @@ aws lambda create-function \
 --function-name piLambda \
 --zip-file fileb://pythonPi.zip \
 --role arn:aws:iam::746233676174:role/service-role/role  \
---handler pythonPi.piLambda \
+--handler piLambda.piLambda \
 --runtime python3.6 \
 --timeout 15 \
 --memory-size 512
+
+
+aws lambda update-function-code \
+--region us-west-1 \
+--function-name piLambda \
+--zip-file fileb://pythonPi.zip
