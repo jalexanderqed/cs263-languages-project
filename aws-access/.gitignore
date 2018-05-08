@@ -1,6 +1,7 @@
 *~
 CS292Graph.iml
 secrets/
+.idea/
 
 target/
 pom.xml.tag
