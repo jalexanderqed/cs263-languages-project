@@ -1,4 +1,4 @@
-package main.java.jalexander.ninja;
+package jalexander.ninja;
 
 import java.io.File;
 import java.io.FileReader;
@@ -9,10 +9,23 @@ import com.amazonaws.auth.*;
 import com.amazonaws.services.lambda.*;
 import com.amazonaws.services.lambda.model.*;
 
+import com.google.gson.Gson;
+
 public class App {
     final static String inFileName = "/file.txt";
 
     public static void main(String[] args) throws IOException {
+        if (args.length != 5) {
+            System.out.println("Arguments: <functionName> <numIterations> <iterWait> <inputInt> <inputString>");
+            return;
+        }
+
+        String functionName = args[0];
+        int numIterations = Integer.parseInt(args[1]);
+        int iterWait = Integer.parseInt(args[2]);
+        int inputInt = Integer.parseInt(args[3]);
+        String inputString = args[4];
+
         File credentialFile = new File(getFile("secrets"), "credentials.txt");
         String accessKeyId;
         String secretKey;
@@ -28,17 +41,45 @@ public class App {
         BasicAWSCredentials credentials = new BasicAWSCredentials(accessKeyId, secretKey);
         AWSLambda client = AWSLambdaClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
 
-        InvokeRequest request = new InvokeRequest();
-        request.setFunctionName("pigo");
-        request.setPayload("{\"inputInt\":10000000, \"inputString\":\"teststring\"}");
+        Gson gson = new Gson();
+        RequestClass payload = new RequestClass();
+        payload.inputInt = inputInt;
+        payload.inputString = inputString;
 
-        long start = System.currentTimeMillis();
-        InvokeResult result = client.invoke(request);
-        long end = System.currentTimeMillis();
+        StringBuilder csvOutput = new StringBuilder();
 
-        System.out.println(new String(result.getPayload().array(), "UTF-8"));
+        csvOutput.append("functionName,numIterations,iterWait,inputInt,inputString,localTime,outputInt,time1,time2,longTime1,longTime2,outputDouble,outputString,errorMessage\n");
 
-        System.out.println("Invocation time: " + (end - start));
+        for (int i = 0; i < numIterations; i++) {
+            InvokeRequest request = new InvokeRequest();
+            request.setFunctionName(functionName);
+
+            request.setPayload(gson.toJson(payload));
+
+            long start = System.currentTimeMillis();
+            InvokeResult resultObj = client.invoke(request);
+            long end = System.currentTimeMillis();
+
+            long localTime = end - start;
+
+            String resultString = new String(resultObj.getPayload().array(), "UTF-8");
+            System.out.println(resultString);
+
+            ResponseClass result = gson.fromJson(resultString, ResponseClass.class);
+
+            csvOutput.append(functionName + "," + numIterations + "," + iterWait + "," + inputInt + "," + inputString + "," + localTime + "," + result.csvString() + "\n");
+
+
+            try {
+                Thread.sleep(iterWait);
+            } catch (InterruptedException e) {
+                System.err.println("Wait interrupted");
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+                return;
+            }
+        }
+        System.out.println(csvOutput);
     }
 
     public static File getFile(String outFileName) {
