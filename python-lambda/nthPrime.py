@@ -6,7 +6,7 @@ def nthPrime(n):
     while (count < n):
         if is_prime(num):
             count +=1
-        num +=2 #optimization
+        num +=2
     return num - 2
     
 def is_prime(num):
