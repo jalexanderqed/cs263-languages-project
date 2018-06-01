@@ -2,7 +2,7 @@ package jalexander.ninja;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
-public class Pi {
+public class nthPrime {
     public static class RequestClass {
         public int inputInt;
         public String inputString;
@@ -18,7 +18,7 @@ public class Pi {
         public String outputString;
     }
 
-    public static ResponseClass handler(RequestClass request, Context context){
+    public static ResponseClass handler(RequestClass request, Context context) {
         ResponseClass response = new ResponseClass();
         response.outputString = "calculated " + request.inputInt + "th Prime";
 
@@ -31,28 +31,28 @@ public class Pi {
     }
 
     public static int nthPrime(int n) {
-	if (n == 1) {
-	    return 2;
-	}
-	int count = 1;
-	int num = 3;
-	while (count < n){
-	    if (isPrime(num)){
-		count +=1;
-	    }
-	    num +=2;
-	}
-	return num - 2;
+        if (n == 1) {
+            return 2;
+        }
+        int count = 1;
+        int num = 3;
+        while (count < n) {
+            if (isPrime(num)) {
+                count += 1;
+            }
+            num += 2;
+        }
+        return num - 2;
     }
 
-    public static int isPrime(int num){
-	int factor = 2;
-	while (factor * factor <= num) {
-	    if (num % factor == 0) {
-		return false;
-	    }
-	    factor++;
-	}
-	return true;
+    public static boolean isPrime(int num) {
+        int factor = 2;
+        while (factor * factor <= num) {
+            if (num % factor == 0) {
+                return false;
+            }
+            factor++;
+        }
+        return true;
     }
 }
