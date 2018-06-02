@@ -54,7 +54,6 @@ def doMergeSort(toMerge):
     return ret[0]
 
 def main():
-    
     toMerge = [4, 9, 6, 8, 1, 3, 2, 19, 16, 0, 20, 5, 7]
     print doMergeSort(toMerge)
 
