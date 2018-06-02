@@ -1,18 +1,30 @@
-def mergeSort(arr):
+import threading
+
+def mergeSort(arr, ret):
     length = len(arr)
     if length <= 1:
-        return arr
+        ret.append(arr)
+        return
     if length == 2:
         if arr[1] < arr[0]:
             t = arr[1]
             arr[1] = arr[0]
             arr[0] = t
-            return arr
+            ret.append(arr)
+            return
     
     middle = (int)(length / 2)
-    left = mergeSort (arr[:middle])
-    right = mergeSort(arr[middle:])
-    return merge(left, right)
+    leftRes = []
+    rightRes = []
+    left = threading.Thread(target=mergeSort, args=(arr[:middle], leftRes))
+    right = threading.Thread(target=mergeSort, args=(arr[middle:], rightRes))
+    left.start()
+    right.start()
+    left.join()
+    right.join()
+    final = merge(leftRes[0], rightRes[0])
+    ret.append(final)
+    return
 
 def merge(left, right):
     leftLen = len(left)
@@ -36,6 +48,15 @@ def merge(left, right):
             rPos += 1
     return merged
 
-toMerge = [4, 9, 6, 8, 1, 3, 2, 19, 16, 0, 20, 5, 7]
+def doMergeSort(toMerge):
+    ret = []
+    mergeSort(toMerge, ret)
+    return ret[0]
 
-print mergeSort(toMerge)
+def main():
+    
+    toMerge = [4, 9, 6, 8, 1, 3, 2, 19, 16, 0, 20, 5, 7]
+    print doMergeSort(toMerge)
+
+if __name__ == "__main__":
+    main()
