@@ -4,7 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import java.util.Arrays;
 
-public class Merge {
+public class MergeParallel {
     public static class RequestClass {
         public int inputInt;
         public String inputString;
@@ -24,7 +24,7 @@ public class Merge {
         public int[] arr;
         public int depth;
         public static int started;
-        final static int THREAD_DEPTH = -1;
+        final static int THREAD_DEPTH = 3;
 
         public MergeSorter(int[] a, int d) {
             arr = a;

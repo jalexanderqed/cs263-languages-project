@@ -24,7 +24,7 @@ public class Merge {
         public int[] arr;
         public int depth;
         public static int started;
-        final static int THREAD_DEPTH = 3;
+        final static int THREAD_DEPTH = -1;
 
         public MergeSorter(int[] a, int d) {
             arr = a;
