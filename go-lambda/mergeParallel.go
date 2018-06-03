@@ -25,7 +25,7 @@ type ResponseClass struct {
 }
 
 func mergeSortSync(arr []int, depth int) []int {
-	const THREAD_DEPTH = -1
+	const THREAD_DEPTH = 3
 
 	if len(arr) <= 1 {
 		return arr
