@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"github.com/aws/aws-lambda-go/lambda"
 	"math/rand"
+	"os"
+	"strconv"
+	"time"
 )
 
 type RequestClass struct {
@@ -101,23 +103,28 @@ func Handler(input RequestClass) (ResponseClass, error) {
 		arr[i] = rand.Intn(100)
 	}
 
-	ch := make(chan []int)
-
 	start := time.Now()
-	go mergeSortAsync(arr, 0, ch)
-	result := <-ch
+	mergeSortSync(arr, 0)
 	end := time.Now()
-
-	result[1] = result[0]
 
 	response.LongTime1 = int64(end.Sub(start) / time.Millisecond)
 	response.LongTime2 = int64(end.Sub(start2) / time.Millisecond)
 
-	response.OutputString = fmt.Sprintf("perfomed merge sort with %d elements", input.InputInt)
+	response.OutputString = fmt.Sprintf("(go) perfomed merge sort with %d elements", input.InputInt)
 
 	return response, nil
 }
 
 func main() {
-	lambda.Start(Handler)
+	if len(os.Args) == 3 {
+		var req RequestClass
+		input, err := strconv.Atoi(os.Args[1])
+		req.InputInt = input
+		req.InputString = os.Args[2]
+		output, err := Handler(req)
+		err = err
+		fmt.Println(output)
+	} else {
+		lambda.Start(Handler)
+	}
 }

@@ -69,7 +69,6 @@ public class App {
 
             csvOutput.append(functionName + "," + numIterations + "," + iterWait + "," + inputInt + "," + inputString + "," + localTime + "," + result.csvString() + "\n");
 
-
             try {
                 Thread.sleep(iterWait);
             } catch (InterruptedException e) {

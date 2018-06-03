@@ -2,7 +2,7 @@ package jalexander.ninja;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
-public class nthPrime {
+public class NthPrime {
     public static class RequestClass {
         public int inputInt;
         public String inputString;
@@ -20,7 +20,7 @@ public class nthPrime {
 
     public static ResponseClass handler(RequestClass request, Context context) {
         ResponseClass response = new ResponseClass();
-        response.outputString = "calculated " + request.inputInt + "th Prime";
+        response.outputString = "(java) calculated " + request.inputInt + "th prime";
 
         long start = System.currentTimeMillis();
         response.outputInt = nthPrime(request.inputInt);

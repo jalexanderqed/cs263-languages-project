@@ -108,7 +108,7 @@ public class Merge {
 
     public static ResponseClass handler(RequestClass request, Context context){
         ResponseClass response = new ResponseClass();
-        response.outputString = "perfomed merge sort with " + request.inputInt + " elements";
+        response.outputString = "(java) perfomed merge sort with " + request.inputInt + " elements";
 
         long start2 = System.currentTimeMillis();
         int[] arr = new int[request.inputInt];

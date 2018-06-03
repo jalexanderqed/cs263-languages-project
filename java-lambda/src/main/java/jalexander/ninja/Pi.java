@@ -18,9 +18,9 @@ public class Pi {
         public String outputString;
     }
 
-    public static ResponseClass handler(RequestClass request, Context context){
+    public static ResponseClass handler(RequestClass request, Context context) {
         ResponseClass response = new ResponseClass();
-        response.outputString = "calculated Pi with " + request.inputInt + " iterations";
+        response.outputString = "(java) calculated Pi with " + request.inputInt + " iterations";
 
         long start = System.currentTimeMillis();
         response.outputDouble = calcPi(request.inputInt);
@@ -35,7 +35,7 @@ public class Pi {
         double sign = -1;
         double denom = 3;
 
-        for (int i = 0; i < iter; i++){
+        for (int i = 0; i < iter; i++) {
             currentVal = currentVal + sign / denom;
             denom += 2;
             sign *= -1;

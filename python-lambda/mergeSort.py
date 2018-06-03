@@ -1,6 +1,12 @@
 import threading
+import time
+import random
+import sys
 
-def mergeSort(arr, ret):
+THREAD_DEPTH = 3
+
+
+def mergeSort(arr, ret, depth):
     length = len(arr)
     if length <= 1:
         ret.append(arr)
@@ -12,19 +18,22 @@ def mergeSort(arr, ret):
             arr[0] = t
             ret.append(arr)
             return
-    
+
     middle = (int)(length / 2)
     leftRes = []
     rightRes = []
-    left = threading.Thread(target=mergeSort, args=(arr[:middle], leftRes))
-    right = threading.Thread(target=mergeSort, args=(arr[middle:], rightRes))
-    left.start()
-    right.start()
-    left.join()
-    right.join()
+    if depth <= THREAD_DEPTH:
+        left = threading.Thread(target=mergeSort, args=(arr[:middle], leftRes, depth + 1))
+        left.start()
+        mergeSort(arr[middle:], rightRes, depth + 1)
+        left.join()
+    else:
+        mergeSort(arr[middle:], rightRes, depth + 1)
+        mergeSort(arr[:middle], leftRes, depth + 1)
     final = merge(leftRes[0], rightRes[0])
     ret.append(final)
     return
+
 
 def merge(left, right):
     leftLen = len(left)
@@ -32,7 +41,7 @@ def merge(left, right):
     lPos = 0
     rPos = 0
     merged = []
-    
+
     while lPos < leftLen or rPos < rightLen:
         if rPos >= rightLen:
             merged.append(left[lPos])
@@ -48,14 +57,33 @@ def merge(left, right):
             rPos += 1
     return merged
 
-def doMergeSort(toMerge):
+
+def doMergeSort(toMerge, depth):
     ret = []
-    mergeSort(toMerge, ret)
+    mergeSort(toMerge, ret, depth)
     return ret[0]
 
-def main():
-    toMerge = [4, 9, 6, 8, 1, 3, 2, 19, 16, 0, 20, 5, 7]
-    print doMergeSort(toMerge)
+
+def run(event, context):
+    elements = event['inputInt']
+
+    start2 = int(round(time.time() * 1000))
+    arr = []
+    for i in range(elements):
+        arr.append(random.randint(0, 2000000))
+
+    start = int(round(time.time() * 1000))
+    arr = doMergeSort(arr, 0)
+    end = int(round(time.time() * 1000))
+    return {
+        'longTime1': end - start,
+        'longTime2': end - start2,
+        'outputString': "(python) perfomed merge sort with " + str(elements) + " elements"
+    }
+
 
 if __name__ == "__main__":
-    main()
+    print(run({
+        'inputInt': int(sys.argv[1]),
+        'inputString': sys.argv[2]
+    }, {}))

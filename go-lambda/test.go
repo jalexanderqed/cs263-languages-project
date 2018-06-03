@@ -1,12 +1,12 @@
 package main
 
 import (
-       "fmt"
+	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type RequestClass struct{
-	InputInt int `json:"inputInt"`
+type RequestClass struct {
+	InputInt    int    `json:"inputInt"`
 	InputString string `json:"inputString"`
 }
 

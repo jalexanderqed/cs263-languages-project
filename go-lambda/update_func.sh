@@ -1,10 +1,11 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]
-  then
+then
     echo "Please supply function name and class name"
     exit 1
 fi
 
-aws lambda update-function-code --function-name $1 \
---zip-file fileb://upzip.zip
+./build.sh $2 && \
+    aws lambda update-function-code --function-name $1 \
+	--zip-file fileb://upzip.zip
