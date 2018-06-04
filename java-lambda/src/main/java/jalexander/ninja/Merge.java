@@ -5,21 +5,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import java.util.Arrays;
 
 public class Merge {
-    public static class RequestClass {
-        public int inputInt;
-        public String inputString;
-    }
-
-    public static class ResponseClass {
-        public int outputInt;
-        public double time1;
-        public double time2;
-        public long longTime1;
-        public long longTime2;
-        public double outputDouble;
-        public String outputString;
-    }
-
     private static class MergeSorter extends Thread {
         public int[] arr;
         public int depth;
@@ -123,5 +108,13 @@ public class Merge {
         response.longTime1 = end - start;
         response.longTime2 = end - start2;
         return response;
+    }
+
+    public static void main(String[] args){
+        RequestClass request = new RequestClass();
+        request.inputInt = Integer.parseInt(args[0]);
+        request.inputString = args[1];
+        ResponseClass response = handler(request, null);
+        System.out.println(response.csvString());
     }
 }

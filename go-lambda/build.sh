@@ -6,4 +6,6 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
+rm upzip.zip
+
 GOOS=linux go build $1.go && zip upzip.zip $1

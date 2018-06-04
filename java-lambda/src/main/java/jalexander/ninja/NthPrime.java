@@ -3,21 +3,6 @@ package jalexander.ninja;
 import com.amazonaws.services.lambda.runtime.Context;
 
 public class NthPrime {
-    public static class RequestClass {
-        public int inputInt;
-        public String inputString;
-    }
-
-    public static class ResponseClass {
-        public int outputInt;
-        public double time1;
-        public double time2;
-        public long longTime1;
-        public long longTime2;
-        public double outputDouble;
-        public String outputString;
-    }
-
     public static ResponseClass handler(RequestClass request, Context context) {
         ResponseClass response = new ResponseClass();
         response.outputString = "(java) calculated " + request.inputInt + "th prime";
@@ -54,5 +39,13 @@ public class NthPrime {
             factor++;
         }
         return true;
+    }
+
+    public static void main(String[] args){
+        RequestClass request = new RequestClass();
+        request.inputInt = Integer.parseInt(args[0]);
+        request.inputString = args[1];
+        ResponseClass response = handler(request, null);
+        System.out.println(response.csvString());
     }
 }

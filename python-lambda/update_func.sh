@@ -6,6 +6,8 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
+rm built.zip
+
 zip built.zip $2.py && \
 aws lambda update-function-code \
 --region us-west-1 \

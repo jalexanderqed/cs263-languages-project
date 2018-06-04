@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/aws/aws-lambda-go/lambda"
-	"math"
 	"os"
 	"strconv"
 	"time"
@@ -24,13 +23,15 @@ type ResponseClass struct {
 	OutputString string  `json:"outputString"`
 }
 
-func isPrime(value int) bool {
-	for i := 2; i <= int(math.Floor(math.Sqrt(float64(value)))); i++ {
-		if value%i == 0 {
-			return false
-		}
+func isPrime(num int) bool {
+	factor := 2
+	for (factor * factor) <= num {
+	      if num % factor == 0{
+	      	 return false
+	      }
+	      factor++
 	}
-	return value > 1
+	return true
 }
 
 func nthPrime(n int) int {
@@ -41,9 +42,9 @@ func nthPrime(n int) int {
 	num := 3
 	for count < n {
 		if isPrime(num) {
-			count = count + 1
+			count += 1
 		}
-		num = num + 2
+		num += 2
 	}
 	return num - 2
 }

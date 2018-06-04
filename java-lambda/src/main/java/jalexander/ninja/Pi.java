@@ -3,21 +3,6 @@ package jalexander.ninja;
 import com.amazonaws.services.lambda.runtime.Context;
 
 public class Pi {
-    public static class RequestClass {
-        public int inputInt;
-        public String inputString;
-    }
-
-    public static class ResponseClass {
-        public int outputInt;
-        public double time1;
-        public double time2;
-        public long longTime1;
-        public long longTime2;
-        public double outputDouble;
-        public String outputString;
-    }
-
     public static ResponseClass handler(RequestClass request, Context context) {
         ResponseClass response = new ResponseClass();
         response.outputString = "(java) calculated Pi with " + request.inputInt + " iterations";
@@ -42,5 +27,13 @@ public class Pi {
         }
 
         return 4 * currentVal;
+    }
+
+    public static void main(String[] args){
+        RequestClass request = new RequestClass();
+        request.inputInt = Integer.parseInt(args[0]);
+        request.inputString = args[1];
+        ResponseClass response = handler(request, null);
+        System.out.println(response.csvString());
     }
 }
