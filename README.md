@@ -4,6 +4,8 @@ Jack Alexander (jalexanderqed)
 
 Sierra Schwellenbach (sierrasch)
 
+Our presentation can be found [here](https://docs.google.com/presentation/d/100y4HnFoegJ9sHjV0bkbZTX6DFzHCQh2H2haGKgPcgg/edit?usp=sharing)
+
 # Instructions to Compile and Run
 
 ## AWS Lambda Client
